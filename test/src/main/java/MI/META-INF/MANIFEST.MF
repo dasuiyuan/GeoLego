@@ -1,0 +1,51 @@
+Manifest-Version: 1.0
+Class-Path: gt-jdbc-h2-20.0.jar hatbox-1.0.b10.jar gt-cql-20.0.jar org
+ .eclipse.emf.ecore-2.12.0.jar checker-qual-2.0.0.jar si-quantity-0.7.
+ 1.jar jt-buffer-1.1.1.jar gt-api-20.0.jar org.eclipse.emf.ecore.xmi-2
+ .12.0.jar gt-geojson-20.0.jar jts-core-1.16.0.jar jt-classifier-1.1.1
+ .jar jetty-server-9.4.12.v20180830.jar jt-algebra-1.1.1.jar gt-xsd-wf
+ s-20.0.jar jt-piecewise-1.1.1.jar jt-mosaic-1.1.1.jar geodb-0.9.jar g
+ t-grid-20.0.jar net.opengis.ows-20.0.jar jt-utils-1.5.0.jar gt-image-
+ 20.0.jar jt-bandselect-1.1.1.jar jt-rescale-1.1.1.jar commons-pool-1.
+ 5.4.jar slf4j-api-1.7.25.jar jts-io-common-1.16.0.jar jt-imagefunctio
+ n-1.1.1.jar commons-dbcp-1.4.jar uom-se-1.0.8.jar jsr305-3.0.2.jar ob
+ jenesis-2.5.1.jar minlog-1.3.0.jar websocket-common-9.4.12.v20180830.
+ jar unit-api-1.0.jar gt-xsd-gml3-20.0.jar ehcache-2.10.3.jar h2-1.1.1
+ 19.jar gt-xsd-filter-20.0.jar jt-lookup-1.1.1.jar json-simple-1.1.jar
+  jt-crop-1.1.1.jar gt-metadata-20.0.jar gt-epsg-hsql-20.0.jar jt-scal
+ e-1.1.1.jar gt-imageio-ext-gdal-20.0.jar gt-referencing-20.0.jar ejml
+ -ddense-0.34.jar org.eclipse.xsd-2.12.0.jar gt-jdbc-20.0.jar j2objc-a
+ nnotations-1.1.jar net.opengis.fes-20.0.jar jetty-http-9.4.12.v201808
+ 30.jar jai_codec-1.1.3.jar picocontainer-1.2.jar jackson-core-2.6.5.j
+ ar jt-zonal-1.1.1.jar jt-format-1.1.1.jar jt-vectorbinarize-1.5.0.jar
+  gt-main-20.0.jar jetty-client-9.4.12.v20180830.jar disruptor-1.2.13.
+ jar websocket-api-9.4.12.v20180830.jar jt-stats-1.1.1.jar jt-errordif
+ fusion-1.1.1.jar jai_imageio-1.1.jar gt-process-feature-20.0.jar gt-r
+ ender-20.0.jar imageio-ext-utilities-1.1.25.jar jetty-io-9.4.12.v2018
+ 0830.jar javax.servlet-api-3.1.0.jar gt-xml-20.0.jar websocket-client
+ -9.4.12.v20180830.jar jetty-util-9.4.12.v20180830.jar jt-bandcombine-
+ 1.1.1.jar gt-xsd-fes-20.0.jar spark-core-2.8.0.jar gt-coverage-20.0.j
+ ar jt-shadedrelief-1.1.1.jar commons-logging-1.1.1.jar jt-vectorbin-1
+ .1.1.jar imageio-ext-streams-1.1.25.jar GeographicLib-Java-1.49.jar j
+ ackson-datatype-jsr310-2.6.5.jar jt-translate-1.1.1.jar gt-xsd-core-2
+ 0.0.jar uom-lib-common-1.0.2.jar hsqldb-2.4.1.jar jt-scale2-1.1.1.jar
+  jt-warp-1.1.1.jar commons-jxpath-1.3.jar si-units-java8-0.7.1.jar jt
+ -nullop-1.1.1.jar gt-transform-20.0.jar gt-xsd-ows-20.0.jar commons-i
+ o-2.6.jar imageio-ext-geocore-1.1.25.jar jt-orderdither-1.1.1.jar jt-
+ utilities-1.1.1.jar gt-geotiff-20.0.jar gt-process-20.0.jar gt-data-2
+ 0.0.jar org.w3.xlink-20.0.jar commons-collections-3.2.2.jar net.openg
+ is.wfs-20.0.jar commons-beanutils-1.9.2-noclassprop.jar animal-sniffe
+ r-annotations-1.14.jar gt-shapefile-20.0.jar jetty-xml-9.4.12.v201808
+ 30.jar jt-affine-1.1.1.jar error_prone_annotations-2.1.3.jar guava-25
+ .1-jre.jar jt-iterators-1.1.1.jar gt-xsd-gml2-20.0.jar gt-imagemosaic
+ -20.0.jar org.eclipse.emf.common-2.12.0.jar systems-common-java8-0.7.
+ 2.jar jt-rlookup-1.1.1.jar jetty-servlet-9.4.12.v20180830.jar websock
+ et-servlet-9.4.12.v20180830.jar xml-commons-resolver-1.2.jar jetty-se
+ curity-9.4.12.v20180830.jar kryo-shaded-4.0.2.jar jt-colorindexer-1.1
+ .1.jar core-0.26.jar jt-border-1.1.1.jar jt-bandmerge-1.1.1.jar jdom2
+ -2.0.6.jar ejml-core-0.34.jar jackson-annotations-2.6.5.jar jetty-web
+ app-9.4.12.v20180830.jar jt-colorconvert-1.1.1.jar gt-opengis-20.0.ja
+ r commons-lang3-3.7.jar jai_core-1.1.3.jar websocket-server-9.4.12.v2
+ 0180830.jar jackson-databind-2.6.5.jar jt-binarize-1.1.1.jar
+Main-Class: geohashtest
+
