@@ -5,12 +5,43 @@
     <parent>
         <artifactId>geolego</artifactId>
         <groupId>org.sylab.geolego</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.sylab.geolego</groupId>
     <artifactId>analysis</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sylab.geolego</groupId>
+            <artifactId>io</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sylab.geolego</groupId>
+            <artifactId>index</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-graph</artifactId>
+            <version>${gt.version}</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>jd releases</id>
+            <name>jd repository releases</name>
+            <url>http://nexus.cbpmgt.com/nexus/content/repositories/releases</url>
+        </repository>
+        <repository>
+            <id>jd snapshots</id>
+            <name>jd repository snapshots</name>
+            <url>http://nexus.cbpmgt.com/nexus/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
 
 </project>

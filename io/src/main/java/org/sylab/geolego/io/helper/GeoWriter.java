@@ -73,6 +73,13 @@ public class GeoWriter {
         return true;
     }
 
+    /**
+     * 写入CSV文件
+     *
+     * @param features
+     * @param csvPath
+     * @return
+     */
     public static boolean writeCSV(List<String> features, String csvPath) {
         File file = new File(csvPath);
         try (FileOutputStream outputStream = new FileOutputStream(file);
@@ -96,6 +103,14 @@ public class GeoWriter {
         return writePureShpFile(geometries, geom_class, outPath);
     }
 
+    /**
+     * 将几何对象集合写入shpfile
+     *
+     * @param geometries
+     * @param geom_class
+     * @param outPath
+     * @return
+     */
     public static boolean writePureShpFile(List<Geometry> geometries, Class geom_class, String outPath) {
         File newFile = new File(outPath);
         ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
@@ -151,6 +166,13 @@ public class GeoWriter {
         return true;
     }
 
+    /**
+     * 将要素集合写入shpfile内
+     *
+     * @param featureCollection
+     * @param outPath
+     * @return
+     */
     public static boolean writeShpfile(SimpleFeatureCollection featureCollection, String outPath) {
 
         File newFile = new File(outPath);
@@ -189,7 +211,6 @@ public class GeoWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return true;
     }
 

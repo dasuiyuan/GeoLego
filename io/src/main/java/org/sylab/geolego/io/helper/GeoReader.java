@@ -1,22 +1,14 @@
 package org.sylab.geolego.io.helper;
 
-import com.wdtinc.mapbox_vector_tile.adapt.jts.MvtEncoder;
-import com.wdtinc.mapbox_vector_tile.adapt.jts.MvtReader;
-import com.wdtinc.mapbox_vector_tile.adapt.jts.TagKeyValueMapConverter;
-import com.wdtinc.mapbox_vector_tile.adapt.jts.model.JtsLayer;
-import com.wdtinc.mapbox_vector_tile.adapt.jts.model.JtsMvt;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.shapefile.ShapefileDataStore;
-import org.geotools.data.shapefile.files.ShpFiles;
-import org.geotools.data.shapefile.shp.ShapefileException;
-import org.geotools.data.shapefile.shp.ShapefileReader;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.geometry.jts.JTS;
-import org.geotools.referencing.CRS;
-import org.geotools.referencing.crs.DefaultGeographicCRS;
+import org.geotools.feature.FeatureCollection;
+import org.geotools.geojson.feature.FeatureJSON;
+import org.geotools.geojson.geom.GeometryJSON;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
@@ -24,29 +16,18 @@ import org.locationtech.jts.geom.impl.PackedCoordinateSequenceFactory;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTFileReader;
 import org.locationtech.jts.io.WKTReader;
-import org.locationtech.jts.io.WKTWriter;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.filter.Filter;
-import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.operation.MathTransform;
 import org.sylab.geolego.model.Storage.GeoFeature;
 import org.sylab.geolego.model.Storage.GeoFeatureClass;
 import org.sylab.geolego.model.Storage.GeoField;
-import org.wololo.geojson.Feature;
-import org.wololo.geojson.FeatureCollection;
-import org.wololo.geojson.GeoJSONFactory;
-import org.wololo.jts2geojson.GeoJSONReader;
 
-import javax.xml.crypto.dsig.TransformException;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.util.*;
-
-import static java.util.Collections.singletonList;
 
 public class GeoReader {
 
@@ -57,7 +38,13 @@ public class GeoReader {
         this._path = path;
     }
 
-    public static GeoFeatureClass ReadCSV(String filePath) {
+    /**
+     * 读取CSV
+     *
+     * @param filePath csv文件路径
+     * @return
+     */
+    public static GeoFeatureClass ReadCSV(String filePath, String separator) {
 
         GeoFeatureClass geoFeatureClass = null;
         try {
@@ -74,7 +61,7 @@ public class GeoReader {
 
             //读取每行记录
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data = line.split(separator);
                 Map<String, Object> valueMap = new HashMap<>();
                 Geometry geometry = null;
 
@@ -111,6 +98,12 @@ public class GeoReader {
         return geoFeatureClass;
     }
 
+    /**
+     * 根据csv header构造字段映射表
+     *
+     * @param fieldStr
+     * @return
+     */
     private static Map<Integer, GeoField> geoFieldMap(String fieldStr) {
         Map<Integer, GeoField> fieldMap = new HashMap<>();
         String[] fieldArray = fieldStr.split(",");
@@ -162,6 +155,12 @@ public class GeoReader {
         return fieldMap;
     }
 
+    /**
+     * 读取WKT文件
+     *
+     * @param filePath
+     * @return
+     */
     public static List<Geometry> ReadWKT(String filePath) {
 
         List<Geometry> geometryList = null;
@@ -180,6 +179,13 @@ public class GeoReader {
         return geometryList;
     }
 
+    /**
+     * 读取shpfile文件
+     *
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
     public static List<Geometry> ReadShp(String filePath) throws IOException {
 
         List<Geometry> geometryList = new ArrayList<>();
@@ -194,6 +200,23 @@ public class GeoReader {
         }
         return geometryList;
 
+    }
+
+    /**
+     * 读geojson文件
+     *
+     * @param object
+     * @return
+     */
+    public static List<SimpleFeature> readGeojson(String object) throws IOException {
+        FeatureJSON featureJSON = new FeatureJSON(new GeometryJSON(15));
+        FeatureCollection featureCollection = featureJSON.readFeatureCollection(object);
+        SimpleFeatureIterator simpleFeatureIterator = (SimpleFeatureIterator) featureCollection.features();
+        List<SimpleFeature> features = new LinkedList<>();
+        while (simpleFeatureIterator.hasNext()) {
+            features.add(simpleFeatureIterator.next());
+        }
+        return features;
     }
 
     /**
