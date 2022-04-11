@@ -32,25 +32,25 @@ public class RouterTest {
         System.out.println("build graph cost: " + (System.currentTimeMillis() - startBuildTime));
 
         long startFindNearestTime = System.currentTimeMillis();
-        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(120.620,32.237)));
-        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.543,31.950)));
+        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.15556781226152, 32.320211371935955)));
+        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.15476606942587523, 32.3223699944434415)));
         System.out.println("find nearest cost: " + (System.currentTimeMillis() - startFindNearestTime));
 
         WKTWriter2 wktWriter2 = new WKTWriter2();
 
-        long startDijTime = System.currentTimeMillis();
-        Path djPath = router.searchRouteDijkstra(start, end);
-        System.out.println("dijkstra cost: " + (System.currentTimeMillis() - startDijTime));
-        for (Object edge : djPath.getEdges()) {
-            System.out.println(wktWriter2.write((Geometry) ((SimpleFeature) ((Edge) edge).getObject()).getDefaultGeometry()));
-        }
-
-//        long startAStarTime = System.currentTimeMillis();
-//        Path aPath = router.searchRouteAStar(start, end);
-//        System.out.println("astar cost: " + (System.currentTimeMillis() - startAStarTime));
-//        for (Object edge : aPath.getEdges()) {
+//        long startDijTime = System.currentTimeMillis();
+//        Path djPath = router.searchRouteDijkstra(start, end);
+//        System.out.println("dijkstra cost: " + (System.currentTimeMillis() - startDijTime));
+//        for (Object edge : djPath.getEdges()) {
 //            System.out.println(wktWriter2.write((Geometry) ((SimpleFeature) ((Edge) edge).getObject()).getDefaultGeometry()));
 //        }
+
+        long startAStarTime = System.currentTimeMillis();
+        Path aPath = router.searchRouteAStar(start, end);
+        System.out.println("astar cost: " + (System.currentTimeMillis() - startAStarTime));
+        for (Object edge : aPath.getEdges()) {
+            System.out.println(wktWriter2.write((Geometry) ((SimpleFeature) ((Edge) edge).getObject()).getDefaultGeometry()));
+        }
     }
 
     @Test
@@ -66,7 +66,7 @@ public class RouterTest {
 
         long startFindNearestTime = System.currentTimeMillis();
         Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.562849999, 48.16087799)));
-        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.5633480,48.1555872)));
+        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.5633480, 48.1555872)));
 //        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.656247, 31.614414)));
 //        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.654864, 31.603724)));
         System.out.println("find nearest cost: " + (System.currentTimeMillis() - startFindNearestTime));
