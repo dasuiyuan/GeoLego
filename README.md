@@ -1,2 +1,2 @@
 # GeoLego
-A GIS based on geotools,having lots of basic GIS functions.
+A spatio-temporal toolbox with lots of spatio-temporal models and algorithems.
