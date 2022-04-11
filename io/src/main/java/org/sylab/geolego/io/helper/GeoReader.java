@@ -9,6 +9,7 @@ import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.geojson.feature.FeatureJSON;
 import org.geotools.geojson.geom.GeometryJSON;
+import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
@@ -31,12 +32,7 @@ import java.util.*;
 
 public class GeoReader {
 
-    private String _path = "";
-
-    public GeoReader(String path) {
-
-        this._path = path;
-    }
+    public final static GeometryFactory GEOMETRY_FACTORY = JTSFactoryFinder.getGeometryFactory();
 
     /**
      * 读取CSV
@@ -89,8 +85,6 @@ public class GeoReader {
                 index += 1;
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,8 +107,8 @@ public class GeoReader {
 
             String fieldName = "";
             Type fieldType = String.class;
-            Integer leftIdx = field.indexOf('(');
-            Integer rightIdx = field.indexOf(')');
+            int leftIdx = field.indexOf('(');
+            int rightIdx = field.indexOf(')');
             fieldName = field.substring(0, leftIdx);
             String typeStr = field.substring(leftIdx + 1, rightIdx);
             boolean ispk = false;
@@ -144,7 +138,8 @@ public class GeoReader {
                     fieldType = String.class;
                     ispk = true;
                     break;
-
+                default:
+                    break;
             }
             GeoField fld = new GeoField(index, fieldName, fieldType);
             fld.set_isPK(ispk);
@@ -167,12 +162,8 @@ public class GeoReader {
         WKTReader wktReader = new WKTReader();
         WKTFileReader s = new WKTFileReader(filePath, wktReader);
         try {
-
             geometryList = s.read();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
@@ -227,35 +218,19 @@ public class GeoReader {
      * @throws IOException
      */
     public static SimpleFeatureCollection ReadShapefile(String filePath) throws IOException {
-
         File file = new File(filePath);
         Map<String, Object> map = new HashMap<>();
         map.put("url", file.toURI().toURL());
-
         DataStore dataStore = DataStoreFinder.getDataStore(map);
-
         Charset charset = ((ShapefileDataStore) dataStore).getCharset();
         ((ShapefileDataStore) dataStore).setCharset(Charset.forName("UTF-8"));
         String typeName = dataStore.getTypeNames()[0];
-
-        SimpleFeatureSource source =
-                dataStore.getFeatureSource(typeName);
-        Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM, 10,20,30,40)")
-
-
-        SimpleFeatureCollection collection = source.getFeatures(filter);
-        SimpleFeatureType fcType = collection.getSchema();
-        CoordinateReferenceSystem crs = fcType.getCoordinateReferenceSystem();
-        return collection;
+        SimpleFeatureSource source = dataStore.getFeatureSource(typeName);
+        Filter filter = Filter.INCLUDE;
+        return source.getFeatures(filter);
     }
 
     private static final int NUMBER_OF_DIMENSIONS = 2;
     private static final int SRID = 0;
 
-    private static GeometryFactory createGeometryFactory() {
-        final PrecisionModel precisionModel = new PrecisionModel();
-        final PackedCoordinateSequenceFactory coordinateSequenceFactory =
-                new PackedCoordinateSequenceFactory(PackedCoordinateSequenceFactory.DOUBLE);
-        return new GeometryFactory(precisionModel, SRID, coordinateSequenceFactory);
-    }
 }
