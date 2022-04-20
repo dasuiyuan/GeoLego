@@ -50,18 +50,13 @@ public class Router {
         this.graph = buildGraph(featureCollection);
         this.routeProperty = routeProperty;
     }
-
-    /**
-     * 几何工厂类
-     */
-    private static GeometryFactory GEOMETRY_FACTORY = JTSFactoryFinder.getGeometryFactory();
-
     /**
      * @return
      */
     protected Graph buildGraph(SimpleFeatureCollection featureCollection) {
         LineStringGraphGenerator lineStringGraphGenerator = new LineStringGraphGenerator();
         FeatureGraphGenerator featureGraphGenerator = new FeatureGraphGenerator(lineStringGraphGenerator);
+
         try (SimpleFeatureIterator iterator = featureCollection.features()) {
             while (iterator.hasNext()) {
                 Feature feature = iterator.next();

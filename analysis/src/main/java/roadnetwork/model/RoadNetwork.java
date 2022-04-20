@@ -1,14 +1,8 @@
 package roadnetwork.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
-import org.geotools.geometry.jts.WKTWriter2;
-import org.geotools.graph.build.feature.FeatureGraphGenerator;
-import org.geotools.graph.build.line.LineStringGraphGenerator;
 import org.geotools.graph.path.Path;
 import org.geotools.graph.structure.Edge;
 import org.geotools.graph.structure.Graph;
@@ -16,15 +10,13 @@ import org.geotools.graph.structure.Node;
 import org.junit.Assert;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.Point;
-import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 import org.sylab.geolego.index.rtree.RTreeIndexOper;
 import org.sylab.geolego.model.utils.GeoFunction;
+import roadnetwork.DirectedDuplicateRouter;
 import roadnetwork.RouteProperty;
 import roadnetwork.Router;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +38,7 @@ public class RoadNetwork {
 
     public RoadNetwork(SimpleFeatureCollection featureCollection) {
         this.rTree = new RTreeIndexOper();
-        this.router = new Router(featureCollection, null, new RouteProperty(null, null));
+        this.router = new DirectedDuplicateRouter(featureCollection, null, new RouteProperty(null, null));
         this.roadSegmentMap = new HashMap<>(this.router.getGraph().getEdges().size());
         this.roadVertexMap = new HashMap<>(this.router.getGraph().getNodes().size());
         initRoadNetwork();
@@ -76,26 +68,16 @@ public class RoadNetwork {
             //add roadsegment linestring into rtree
             SimpleFeature simpleFeature = (SimpleFeature) edge.getObject();
             Geometry roadGeom = (Geometry) simpleFeature.getDefaultGeometry();
+            boolean isReverse = roadGeom.getUserData() instanceof Boolean&&(boolean)roadGeom.getUserData();
+            roadSegment.setReverse(isReverse);
+            //todo: set oid field as a param
+            int oid = Integer.parseInt(simpleFeature.getAttribute(1).toString());
+            oid = isReverse ? oid * (-1) : oid;
+            roadSegment.setOid(oid);
             roadGeom.setUserData(roadSegment);
             rTree.add(roadGeom);
         }
         rTree.buildIndex();
-    }
-
-    /**
-     * Get shortest path from startnode to endNode, then return the path length
-     *
-     * @param startNode
-     * @param endNode
-     * @return
-     */
-    public double shortestPathDistance(Node startNode, Node endNode) throws Exception {
-        Path aPath = router.searchRouteAStar(startNode, endNode);
-        double length = 0.0;
-        for (Object edge : aPath.getEdges()) {
-            length += GeoFunction.getDistanceInM((LineString) ((Edge) edge).getObject());
-        }
-        return length;
     }
 
     /**
@@ -105,7 +87,7 @@ public class RoadNetwork {
      * @param endNode
      * @return
      */
-    public RoutePath shortestPath(Node startNode, Node endNode)  {
+    public RoutePath shortestPath(Node startNode, Node endNode) {
         List<RoadSegment> roadSegments = new LinkedList<>();
         Path aPath = null;
         try {

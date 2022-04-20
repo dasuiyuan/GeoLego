@@ -78,4 +78,19 @@ public class RTreeIndexOper implements Serializable {
             return candidates.stream().filter(o -> !g.equals(o) && g.intersects(o)).collect(Collectors.toList());
         }
     }
+
+    /**
+     * 查询相交对象
+     *
+     * @param g 查询对象
+     * @return 相交的结合对象集合
+     */
+    public List<Geometry> searchIntersectEstmate(Geometry g) {
+        if (g == null) {
+            return null;
+        }
+        Envelope bbox = g.getEnvelopeInternal();
+        List<Geometry> candidates = strtree.query(bbox);
+        return candidates;
+    }
 }

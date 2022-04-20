@@ -1,6 +1,7 @@
 package roadnetwork.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.geotools.graph.structure.Edge;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
@@ -15,6 +16,9 @@ import org.sylab.geolego.model.utils.GeoFunction;
  **/
 public class RoadSegment {
     @Getter
+    @Setter
+    private int oid;
+    @Getter
     private int id;
     @Getter
     private Edge raw;
@@ -22,6 +26,9 @@ public class RoadSegment {
     private RoadVertex fromVertex;
     @Getter
     private RoadVertex toVertex;
+    @Getter
+    @Setter
+    private boolean reverse;
 
     private LineString lineString;
     private double length = 0.0;

@@ -32,8 +32,8 @@ public class RouterTest {
         System.out.println("build graph cost: " + (System.currentTimeMillis() - startBuildTime));
 
         long startFindNearestTime = System.currentTimeMillis();
-        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.15556781226152, 32.320211371935955)));
-        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.15476606942587523, 32.3223699944434415)));
+        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.1372008,32.3064821)));
+        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.1338570,32.3065655)));
         System.out.println("find nearest cost: " + (System.currentTimeMillis() - startFindNearestTime));
 
         WKTWriter2 wktWriter2 = new WKTWriter2();
@@ -55,8 +55,8 @@ public class RouterTest {
 
     @Test
     public void directedRoute() throws Exception {
-//        String filePath = "E:\\1-JUST\\2-gis\\1-data\\nantong\\nantong-Incar\\road\\Rnantong.shp";
-        String filePath = "E:\\3-Personal\\3-exercise\\barefoot\\data\\oberbayern-latest-free.shp\\gis_osm_roads_free_1.shp";
+        String filePath = "E:\\1-JUST\\6-common\\1-data\\nantong\\nantong_rn_20220324.shp";
+//        String filePath = "E:\\3-Personal\\3-exercise\\barefoot\\data\\oberbayern-latest-free.shp\\gis_osm_roads_free_1.shp";
 
         SimpleFeatureCollection simpleFeatureCollection = GeoReader.ReadShapefile(filePath);
         RouteProperty routeProperty = new RouteProperty();
@@ -65,10 +65,10 @@ public class RouterTest {
         System.out.println("build graph cost: " + (System.currentTimeMillis() - startBuildTime));
 
         long startFindNearestTime = System.currentTimeMillis();
-        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.562849999, 48.16087799)));
-        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.5633480, 48.1555872)));
-//        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.656247, 31.614414)));
-//        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.654864, 31.603724)));
+//        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.562849999, 48.16087799)));
+//        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(11.5633480, 48.1555872)));
+        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.1372008,32.3064821)));
+        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.1338570,32.3065655)));
         System.out.println("find nearest cost: " + (System.currentTimeMillis() - startFindNearestTime));
 
 //        long startDijTime = System.currentTimeMillis();
