@@ -2,10 +2,14 @@ package org.sylab.geolego.index.rtree;
 
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.index.strtree.GeometryItemDistance;
 import org.locationtech.jts.index.strtree.STRtree;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -92,5 +96,19 @@ public class RTreeIndexOper implements Serializable {
         Envelope bbox = g.getEnvelopeInternal();
         List<Geometry> candidates = strtree.query(bbox);
         return candidates;
+    }
+
+    /**
+     * 在指定范围内寻找集合对象最近的k个元素
+     *
+     * @param env
+     * @param g
+     * @param k
+     * @return
+     */
+    public List<Geometry> knn(Envelope env, Geometry g, int k) {
+        Object[] result = strtree.nearestNeighbour(env, g, new GeometryItemDistance(), k);
+        if (result == null) return null;
+        return Arrays.stream(result).map(o -> (Geometry) o).collect(Collectors.toList());
     }
 }
