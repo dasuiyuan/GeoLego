@@ -19,6 +19,8 @@ public class GeoReaderTest {
 
     @Test
     public void readShapefile() throws IOException {
+        GeoReader.ReadShapefile("/E:/1-JUST/3-DE/3-code/just-de/just-de-algorithm/local-algorithm/target/classes/data/shp/beijing_rn_sub.shp");
+
         Set<String> roadNameSet = new HashSet<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("E:\\work\\files\\JUST\\GIS\\data\\南京-矢量-utm\\road_dit.txt"));
              BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("E:\\work\\files\\JUST\\GIS\\data\\南京-矢量-utm\\road.csv"))) {

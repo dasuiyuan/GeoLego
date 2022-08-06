@@ -9,9 +9,9 @@ import org.locationtech.jts.geom.Point;
 import org.sylab.geolego.index.rtree.RTreeIndexOper;
 import org.sylab.geolego.model.utils.GeoFunction;
 import org.sylab.geolego.model.utils.SpatialProjectUtils;
-import roadnetwork.model.RoadNetwork;
-import roadnetwork.model.RoadSegment;
-import roadnetwork.model.RoutePath;
+import roadnetwork.model.jtsgraph.JTSRoadNetwork;
+import roadnetwork.model.jtsgraph.JTSRoadSegment;
+import roadnetwork.model.jtsgraph.JTSRoutePath;
 import trajectory.Trajectory;
 import trajectory.GPSPoint;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  **/
 public class TrajectoryMapMatcher {
 
-    private RoadNetwork roadNetwork;
+    private JTSRoadNetwork roadNetwork;
 
     private Trajectory trajectory;
 
@@ -39,7 +39,7 @@ public class TrajectoryMapMatcher {
     private HmmProbabilities hmmProbabilities = new HmmProbabilities();
 
 
-    public TrajectoryMapMatcher(RoadNetwork roadNetwork, Trajectory trajectory, double searchDistance) {
+    public TrajectoryMapMatcher(JTSRoadNetwork roadNetwork, Trajectory trajectory, double searchDistance) {
         Assert.assertNotNull(roadNetwork);
         Assert.assertNotNull(trajectory);
         Assert.assertTrue(searchDistance > 0);
@@ -79,12 +79,12 @@ public class TrajectoryMapMatcher {
      *
      * @return
      */
-    public List<RoadSegment> hmmMapMatchRoad() {
+    public List<JTSRoadSegment> hmmMapMatchRoad() {
         List<CandidatePoint> candidatePoints = hmmMapMatch();
-        List<RoadSegment> roadSegments = new LinkedList<>();
-        RoadSegment preRs = null;
+        List<JTSRoadSegment> roadSegments = new LinkedList<>();
+        JTSRoadSegment preRs = null;
         for (CandidatePoint candidatePoint : candidatePoints) {
-            RoadSegment roadSegment = candidatePoint.getRoadSegment();
+            JTSRoadSegment roadSegment = candidatePoint.getRoadSegment();
             if (preRs != null && preRs.getId() == roadSegment.getId()) {
                 continue;
             }
@@ -102,8 +102,8 @@ public class TrajectoryMapMatcher {
             return null;
         }
         List<CandidatePoint> candidatePoints = new ArrayList<>();
-        List<RoadSegment> candidateRS = results.stream().map(geometry -> (RoadSegment) geometry.getUserData()).collect(Collectors.toList());
-        for (RoadSegment candidateRoad : candidateRS) {
+        List<JTSRoadSegment> candidateRS = results.stream().map(geometry -> (JTSRoadSegment) geometry.getUserData()).collect(Collectors.toList());
+        for (JTSRoadSegment candidateRoad : candidateRS) {
             //find project point
             SpatialProjectUtils.ProjectPoint projectPoint = SpatialProjectUtils.project(candidateRoad.getLineString(), observation.getRaw());
             candidatePoints.add(new CandidatePoint()
@@ -209,8 +209,8 @@ public class TrajectoryMapMatcher {
     }
 
     private double computeRouteLength(CandidatePoint candidatePointA, CandidatePoint candidatePointB) {
-        RoadSegment roadSegmentA = candidatePointA.getRoadSegment();
-        RoadSegment roadSegmentB = candidatePointB.getRoadSegment();
+        JTSRoadSegment roadSegmentA = candidatePointA.getRoadSegment();
+        JTSRoadSegment roadSegmentB = candidatePointB.getRoadSegment();
         double routeDistance = Double.POSITIVE_INFINITY;
         if (roadSegmentA.getId() == roadSegmentB.getId()) {
             //project on same road
@@ -226,7 +226,7 @@ public class TrajectoryMapMatcher {
         } else {
             Node roadAToNode = roadSegmentA.getToVertex().getRaw();
             Node roadBFromNode = roadSegmentB.getFromVertex().getRaw();
-            RoutePath routePath = this.roadNetwork.shortestPath(roadAToNode, roadBFromNode);
+            JTSRoutePath routePath = this.roadNetwork.shortestPath(roadAToNode, roadBFromNode);
             double roadSegLength = routePath.getLength();
             //reture if disconnected
             if (roadSegLength == Double.POSITIVE_INFINITY) {
@@ -251,8 +251,8 @@ public class TrajectoryMapMatcher {
     }
 
     private double computeRouteLengthDirectDup(CandidatePoint candidatePointA, CandidatePoint candidatePointB) {
-        RoadSegment roadSegmentA = candidatePointA.getRoadSegment();
-        RoadSegment roadSegmentB = candidatePointB.getRoadSegment();
+        JTSRoadSegment roadSegmentA = candidatePointA.getRoadSegment();
+        JTSRoadSegment roadSegmentB = candidatePointB.getRoadSegment();
         double routeDistance = Double.POSITIVE_INFINITY;
         if (roadSegmentA.getId() == roadSegmentB.getId() && candidatePointB.getOffsetLengthInM() >= candidatePointA.getOffsetLengthInM()) {
             //project on same road
@@ -264,7 +264,7 @@ public class TrajectoryMapMatcher {
         } else {
             Node roadAToNode = roadSegmentA.getToVertex().getRaw();
             Node roadBFromNode = roadSegmentB.getFromVertex().getRaw();
-            RoutePath routePath = this.roadNetwork.shortestPath(roadAToNode, roadBFromNode);
+            JTSRoutePath routePath = this.roadNetwork.shortestPath(roadAToNode, roadBFromNode);
             double roadSegLength = routePath.getLength();
             routeDistance = roadSegLength + (roadSegmentA.getLength() - candidatePointA.getOffsetLengthInM()) + candidatePointB.getOffsetLengthInM();
         }

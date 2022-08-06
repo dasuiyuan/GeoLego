@@ -1,4 +1,4 @@
-package roadnetwork.model;
+package roadnetwork.model.jtsgraph;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import org.sylab.geolego.model.utils.GeoFunction;
  * @Date: 2022/4/7 9:59
  * @since:
  **/
-public class RoadSegment {
+public class JTSRoadSegment {
     @Getter
     @Setter
     private int oid;
@@ -23,9 +23,9 @@ public class RoadSegment {
     @Getter
     private Edge raw;
     @Getter
-    private RoadVertex fromVertex;
+    private JTSRoadVertex fromVertex;
     @Getter
-    private RoadVertex toVertex;
+    private JTSRoadVertex toVertex;
     @Getter
     @Setter
     private boolean reverse;
@@ -33,7 +33,7 @@ public class RoadSegment {
     private LineString lineString;
     private double length = 0.0;
 
-    public RoadSegment(int id, Edge edge, RoadVertex fromVertex, RoadVertex toVertex) {
+    public JTSRoadSegment(int id, Edge edge, JTSRoadVertex fromVertex, JTSRoadVertex toVertex) {
         this.id = id;
         this.raw = edge;
         this.fromVertex = fromVertex;

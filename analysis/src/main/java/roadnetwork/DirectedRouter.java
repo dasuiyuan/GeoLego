@@ -3,11 +3,8 @@ package roadnetwork;
 import lombok.extern.slf4j.Slf4j;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
 import org.geotools.graph.build.feature.FeatureGraphGenerator;
 import org.geotools.graph.build.line.DirectedLineStringGraphGenerator;
-import org.geotools.graph.build.line.LineStringGraphGenerator;
 import org.geotools.graph.structure.DirectedGraph;
 import org.geotools.graph.structure.Graph;
 import org.locationtech.jts.geom.Polygon;
@@ -25,7 +22,7 @@ public class DirectedRouter extends Router {
 
     DirectedGraph directedGraph;
 
-    public DirectedRouter(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RouteProperty routeProperty) {
+    public DirectedRouter(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RoadGraphProperty routeProperty) {
         super(featureCollection, barriers, routeProperty);
     }
 

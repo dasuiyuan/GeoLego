@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.graph.build.feature.FeatureGraphGenerator;
 import org.geotools.graph.build.line.LineStringGraphGenerator;
 import org.geotools.graph.path.AStarShortestPathFinder;
@@ -19,7 +16,6 @@ import org.geotools.graph.traverse.standard.AStarIterator;
 import org.geotools.graph.traverse.standard.AStarIterator.AStarFunctions;
 import org.geotools.graph.traverse.standard.DijkstraIterator;
 import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.opengis.feature.Feature;
@@ -43,9 +39,9 @@ public class Router {
     @Getter
     private Graph graph;
 
-    private RouteProperty routeProperty;
+    private RoadGraphProperty routeProperty;
 
-    public Router(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RouteProperty routeProperty) {
+    public Router(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RoadGraphProperty routeProperty) {
         this.barriers = barriers;
         this.graph = buildGraph(featureCollection);
         this.routeProperty = routeProperty;

@@ -1,4 +1,4 @@
-package roadnetwork.model;
+package roadnetwork.model.jtsgraph;
 
 import lombok.Data;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -15,18 +15,13 @@ import javax.swing.plaf.PanelUI;
  * @since:
  **/
 @Data
-public class RoadVertex {
-    private static final GeometryFactory FACTORY = JTSFactoryFinder.getGeometryFactory();
-
+public class JTSRoadVertex {
     private int rsid;
-
     private Node raw;
-
-    public RoadVertex(Node point, int rsid) {
+    public JTSRoadVertex(Node point, int rsid) {
         this.raw = point;
         this.rsid = rsid;
     }
-
     public Point getPoint() {
         return (Point) this.raw.getObject();
     }

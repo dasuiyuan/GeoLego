@@ -11,14 +11,11 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.opengis.feature.simple.SimpleFeature;
 import org.sylab.geolego.io.helper.GeoReader;
-import roadnetwork.RouteProperty;
+import roadnetwork.RoadGraphProperty;
 import roadnetwork.Router;
-import roadnetwork.bfs.BreadthFirstSearchOperator;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class DijkstarOperatorTest {
 
@@ -28,7 +25,7 @@ public class DijkstarOperatorTest {
     public void findShortestPath() throws IOException {
         String filePath = "E:\\1-JUST\\6-common\\1-data\\nantong\\nantong_rn_20220324.shp";
         SimpleFeatureCollection simpleFeatureCollection = GeoReader.ReadShapefile(filePath);
-        RouteProperty routeProperty = new RouteProperty();
+        RoadGraphProperty routeProperty = new RoadGraphProperty();
         long startBuildTime = System.currentTimeMillis();
         Router router = new Router(simpleFeatureCollection, null, routeProperty);
         System.out.println("build graph cost: " + (System.currentTimeMillis() - startBuildTime));

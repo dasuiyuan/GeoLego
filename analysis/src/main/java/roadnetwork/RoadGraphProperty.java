@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RouteProperty {
+public class RoadGraphProperty {
     /**
      * 方向字段
      */
@@ -22,5 +22,10 @@ public class RouteProperty {
      * 路径花费字段
      */
     private String costField;
+
+    /**
+     *  是否为有向图
+     */
+    private boolean directed;
 
 }

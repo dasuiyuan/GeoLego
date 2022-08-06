@@ -25,7 +25,7 @@ import java.util.*;
 @Slf4j
 public class DirectedDuplicateRouter extends Router {
 
-    public DirectedDuplicateRouter(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RouteProperty routeProperty) {
+    public DirectedDuplicateRouter(SimpleFeatureCollection featureCollection, List<Polygon> barriers, RoadGraphProperty routeProperty) {
         super(featureCollection, barriers, routeProperty);
     }
 

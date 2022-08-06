@@ -11,14 +11,11 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.opengis.feature.simple.SimpleFeature;
 import org.sylab.geolego.io.helper.GeoReader;
-import roadnetwork.RouteProperty;
+import roadnetwork.RoadGraphProperty;
 import roadnetwork.Router;
-import roadnetwork.dijkstra.DijkstarOperator;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class AStarOperatorTest {
 
@@ -28,14 +25,14 @@ public class AStarOperatorTest {
     public void findShortestPath() throws IOException {
         String filePath = "E:\\1-JUST\\6-common\\1-data\\nantong\\nantong_rn_20220324.shp";
         SimpleFeatureCollection simpleFeatureCollection = GeoReader.ReadShapefile(filePath);
-        RouteProperty routeProperty = new RouteProperty();
+        RoadGraphProperty routeProperty = new RoadGraphProperty();
         long startBuildTime = System.currentTimeMillis();
         Router router = new Router(simpleFeatureCollection, null, routeProperty);
         System.out.println("build graph cost: " + (System.currentTimeMillis() - startBuildTime));
 
         long startFindNearestTime = System.currentTimeMillis();
-        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(120.620,32.237)));
-        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.543,31.950)));
+        Node start = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(120.44588,32.46976)));
+        Node end = router.getNearestGraphNode(GEOMETRY_FACTORY.createPoint(new CoordinateXY(121.70537,31.85340)));
         System.out.println("find nearest cost: " + (System.currentTimeMillis() - startFindNearestTime));
 
         long startAStarTime = System.currentTimeMillis();

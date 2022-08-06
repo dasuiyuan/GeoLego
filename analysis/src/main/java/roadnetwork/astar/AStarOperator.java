@@ -18,12 +18,7 @@ import java.util.*;
  */
 public class AStarOperator {
     public static List<Edge> findShortestPath(Node startNode, Node endNode) {
-        PriorityQueue<WeightedNode> frontier = new PriorityQueue<>(new Comparator<WeightedNode>() {
-            @Override
-            public int compare(WeightedNode o1, WeightedNode o2) {
-                return Double.compare(o1.getWeight(), o2.getWeight());
-            }
-        }); //边界
+        PriorityQueue<WeightedNode> frontier = new PriorityQueue<>(Comparator.comparingDouble(WeightedNode::getWeight)); //边界
         Map<Node, Node> comeFromMap = new HashMap<>(); //路径
         Map<Node, Double> costMap = new HashMap<>(); //花费
         frontier.offer(new WeightedNode(0.0, startNode));
