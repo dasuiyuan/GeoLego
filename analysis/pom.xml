@@ -34,19 +34,4 @@
             <version>${gt.version}</version>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>jd releases</id>
-            <name>jd repository releases</name>
-            <url>http://nexus.cbpmgt.com/nexus/content/repositories/releases</url>
-        </repository>
-        <repository>
-            <id>jd snapshots</id>
-            <name>jd repository snapshots</name>
-            <url>http://nexus.cbpmgt.com/nexus/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
-
-
 </project>
