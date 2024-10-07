@@ -34,9 +34,7 @@ public class GeoHash {
     /**
      * base32字符集合
      */
-    private static final char[] BASE32_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private static final char[] BASE32_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
     private Map<Character, Integer> base32CharMap;
 
@@ -89,6 +87,42 @@ public class GeoHash {
     }
 
     /**
+     * 计算周围顺时针8个geohash（包括自己，自己为第一个）
+     *
+     * @param lng
+     * @param lat
+     * @return
+     */
+    public String[] getAround(double lng, double lat) {
+        //基于坐标分别计算周围8个geohash
+        String[] arounds = new String[9];
+
+        double lngLeft = lng - lngResolution;
+        double lngRight = lng + lngResolution;
+        double latUp = lat + latResolution;
+        double latDown = lat - latResolution;
+        //本身
+        arounds[0] = getGeoHashCode(lng, lat);
+        //左上
+        arounds[1] = getGeoHashCode(lngLeft, latUp);
+        //中上
+        arounds[2] = getGeoHashCode(lng, latUp);
+        //右上
+        arounds[3] = getGeoHashCode(lngRight, latUp);
+        //右中
+        arounds[4] = getGeoHashCode(lngRight, lat);
+        //右下
+        arounds[5] = getGeoHashCode(lngRight, latDown);
+        //中下
+        arounds[6] = getGeoHashCode(lng, latDown);
+        //左下
+        arounds[7] = getGeoHashCode(lngLeft, latDown);
+        //左中
+        arounds[8] = getGeoHashCode(lngLeft, lat);
+        return arounds;
+    }
+
+    /**
      * 根据geohash编码获取对应polygon
      *
      * @param geohashCode
@@ -114,7 +148,7 @@ public class GeoHash {
      * @return
      */
     public Envelope getGeoPolygon() {
-        return getGeoPolygon(this.getCode());
+        return this.extent.getEnvelopeInternal();
     }
 
     /**
@@ -162,7 +196,7 @@ public class GeoHash {
             lngResolution /= 2.0;
         }
         latResolution = MAX_LAT - MIN_LAT;
-        for (int i = 0; i < lngLength; i++) {
+        for (int i = 0; i < latLength; i++) {
             latResolution /= 2.0;
         }
     }
@@ -316,13 +350,7 @@ public class GeoHash {
      */
     public static Polygon toPolygon(Envelope envelope, int srid) {
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), srid);
-        CoordinateSequence cs = new CoordinateArraySequence(new Coordinate[]{
-                new Coordinate(envelope.getMinX(), envelope.getMaxY()),
-                new Coordinate(envelope.getMaxX(), envelope.getMaxY()),
-                new Coordinate(envelope.getMaxX(), envelope.getMinY()),
-                new Coordinate(envelope.getMinX(), envelope.getMinY()),
-                new Coordinate(envelope.getMinX(), envelope.getMaxY())
-        });
+        CoordinateSequence cs = new CoordinateArraySequence(new Coordinate[]{new Coordinate(envelope.getMinX(), envelope.getMaxY()), new Coordinate(envelope.getMaxX(), envelope.getMaxY()), new Coordinate(envelope.getMaxX(), envelope.getMinY()), new Coordinate(envelope.getMinX(), envelope.getMinY()), new Coordinate(envelope.getMinX(), envelope.getMaxY())});
         LinearRing shell = new LinearRing(cs, geometryFactory);
         return geometryFactory.createPolygon(shell);
     }

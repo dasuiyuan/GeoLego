@@ -5,7 +5,7 @@
     <parent>
         <artifactId>geolego</artifactId>
         <groupId>org.sylab.geolego</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,17 +15,17 @@
         <dependency>
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
-            <version>${sparkjava.version}</version>
+            <version>2.7.2</version>
         </dependency>
         <dependency>
             <artifactId>index</artifactId>
             <groupId>org.sylab.geolego</groupId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.sylab.geolego</groupId>
             <artifactId>io</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -11,6 +11,18 @@
 
     <groupId>org.sylab.geolego</groupId>
     <artifactId>index</artifactId>
-
-
+    <dependencies>
+        <!--google的S2包-->
+        <dependency>
+            <groupId>io.sgr</groupId>
+            <artifactId>s2-geometry-library-java</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--uber h3包-->
+        <dependency>
+            <groupId>com.uber</groupId>
+            <artifactId>h3</artifactId>
+            <version>4.1.1</version>
+        </dependency>
+    </dependencies>
 </project>
